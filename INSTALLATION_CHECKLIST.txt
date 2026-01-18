@@ -52,7 +52,7 @@ Mac/Linux:
 - [ ] Verify: db.sqlite3 file created
 - [ ] Run: `python manage.py createsuperuser`
 - [ ] Enter admin username (e.g., "admin")
-- [ ] Enter admin email (e.g., "admin@fungao.com")
+- [ ] Enter admin email (e.g., "admin@fubgao.com")
 - [ ] Enter password twice
 
 ### Step 6: Collect Static Files

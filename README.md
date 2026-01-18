@@ -162,7 +162,7 @@ The code is well-commented and follows Django best practices. You can easily:
 
 ## License
 
-This project is custom-built for Gram Panchayat Fungao.
+This project is custom-built for Gram Panchayat Fubgao.
 
 ---
 
