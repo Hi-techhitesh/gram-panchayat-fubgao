@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Panchayat Members – Gram Panchayat Fungao{% endblock %}
+{% block content %}
+<h1>Panchayat Members</h1>
+
+{% if sarpanch %}
+<section>
+    <h2>Sarpanch</h2>
+    <div class="card">
+        {% if sarpanch.photo %}
+            <img src="{{ sarpanch.photo.url }}" alt="{{ sarpanch.name }}" style="max-width:150px;">
+        {% endif %}
+        <h3>{{ sarpanch.name }}</h3>
+        <p>{{ sarpanch.bio|default:"" }}</p>
+        <p>Contact: {{ sarpanch.contact_number|default:"NA" }}</p>
+    </div>
+</section>
+{% endif %}
+
+<section>
+    <h2>Other Members</h2>
+    <div class="grid">
+        {% for m in members %}
+            <div class="card">
+                {% if m.photo %}
+                    <img src="{{ m.photo.url }}" alt="{{ m.name }}" style="max-width:120px;">
+                {% endif %}
+                <h3>{{ m.name }}</h3>
+                <p>{{ m.get_position_display }}</p>
+                <p>{{ m.bio|truncatewords:15 }}</p>
+            </div>
+        {% empty %}
+            <p>No members added yet.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

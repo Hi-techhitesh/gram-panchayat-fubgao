@@ -1,0 +1,320 @@
+"""
+Deployment Guide for Gram Panchayat Website
+
+This guide will help you deploy the Django website to production.
+"""
+
+# ==================== DEPLOYMENT OPTIONS ====================
+
+## OPTION 1: RENDER.COM (RECOMMENDED - FREE)
+
+### Step 1: Prepare Code for Render
+1. Create a Procfile in project root:
+   ```
+   web: gunicorn gram_panchayat.wsgi
+   release: python manage.py migrate
+   ```
+
+2. Create runtime.txt:
+   ```
+   python-3.11.0
+   ```
+
+3. Create .gitignore (important!):
+   ```
+   *.pyc
+   __pycache__/
+   *.env
+   db.sqlite3
+   media/
+   staticfiles/
+   venv/
+   .DS_Store
+   ```
+
+### Step 2: Push to GitHub
+```bash
+git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin https://github.com/yourusername/gram-panchayat.git
+git push -u origin main
+```
+
+### Step 3: Deploy on Render
+1. Go to https://render.com
+2. Sign up with GitHub account
+3. Click "New +" → "Web Service"
+4. Connect your GitHub repo
+5. Configure:
+   - Name: gram-panchayat
+   - Environment: Python 3
+   - Build Command: `pip install -r requirements.txt && python manage.py collectstatic --noinput`
+   - Start Command: `gunicorn gram_panchayat.wsgi:application`
+6. Add Environment Variables:
+   - SECRET_KEY: (generate at https://djecrety.ir/)
+   - DEBUG: False
+   - ALLOWED_HOSTS: yourdomain.onrender.com
+   - DATABASE_URL: (Render provides this if you add PostgreSQL)
+   - EMAIL settings...
+
+7. Click "Deploy"
+
+### Step 4: Set Up PostgreSQL Database (on Render)
+1. Click "New +" → "PostgreSQL"
+2. Name it: gram-panchayat-db
+3. Copy DATABASE_URL to your web service environment variables
+4. Run migrations on deployed app
+
+---
+
+## OPTION 2: RAILWAY.APP
+
+### Step 1: Install Railway CLI
+```bash
+npm i -g @railway/cli
+```
+
+### Step 2: Login and Deploy
+```bash
+railway login
+railway init
+railway up
+```
+
+### Step 3: Add Environment Variables
+```bash
+railway variables set SECRET_KEY "your-key"
+railway variables set DEBUG "False"
+railway variables set ALLOWED_HOSTS "yourdomain.railway.app"
+```
+
+### Step 4: Add PostgreSQL
+```bash
+railway add    # Select PostgreSQL
+```
+
+---
+
+## OPTION 3: PYTHONANYWHERE.COM
+
+### Step 1: Upload Files
+1. Create account on pythonanywhere.com
+2. Use "Upload a zip file" option
+3. Unzip to /home/yourusername/gram_panchayat/
+
+### Step 2: Create Virtual Environment
+```bash
+mkvirtualenv --python=/usr/bin/python3.11 gram_panchayat
+pip install -r requirements.txt
+```
+
+### Step 3: Configure WSGI File
+Edit WSGI configuration file:
+```python
+import os
+import sys
+
+path = '/home/yourusername/gram_panchayat'
+if path not in sys.path:
+    sys.path.append(path)
+
+os.environ['DJANGO_SETTINGS_MODULE'] = 'gram_panchayat.settings'
+
+from django.wsgi import get_wsgi_application
+application = get_wsgi_application()
+```
+
+### Step 4: Set Up Database
+- Go to "Web" tab
+- Set Python version to 3.11
+- Set WSGI configuration file
+- Set static files paths:
+  - URL: /static/
+  - Path: /home/yourusername/gram_panchayat/staticfiles
+
+### Step 5: Add Environment Variables
+Create .env file in project root with all configuration
+
+### Step 6: Run Migrations
+```bash
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py collectstatic
+```
+
+---
+
+## OPTION 4: AWS EC2 (ADVANCED)
+
+### Step 1: Launch EC2 Instance
+- Use Ubuntu 22.04 LTS
+- Allow HTTP (80) and HTTPS (443) in security group
+
+### Step 2: Install Dependencies
+```bash
+sudo apt-get update
+sudo apt-get install python3-pip python3-venv postgresql postgresql-contrib nginx
+```
+
+### Step 3: Set Up Project
+```bash
+cd /home/ubuntu
+git clone https://github.com/yourusername/gram-panchayat.git
+cd gram_panchayat
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py collectstatic
+```
+
+### Step 4: Configure Gunicorn
+Create /home/ubuntu/gram_panchayat/gunicorn_config.py:
+```python
+import multiprocessing
+bind = "127.0.0.1:8000"
+workers = multiprocessing.cpu_count() * 2 + 1
+worker_class = "sync"
+worker_connections = 1000
+timeout = 30
+keepalive = 2
+```
+
+### Step 5: Configure Nginx
+Create /etc/nginx/sites-available/gram_panchayat:
+```
+server {
+    listen 80;
+    server_name yourdomain.com www.yourdomain.com;
+
+    location /static/ {
+        alias /home/ubuntu/gram_panchayat/staticfiles/;
+    }
+
+    location /media/ {
+        alias /home/ubuntu/gram_panchayat/media/;
+    }
+
+    location / {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+```
+
+Enable site:
+```bash
+sudo ln -s /etc/nginx/sites-available/gram_panchayat /etc/nginx/sites-enabled/
+sudo systemctl restart nginx
+```
+
+### Step 6: Create Systemd Service
+Create /etc/systemd/system/gram_panchayat.service:
+```
+[Unit]
+Description=Gram Panchayat Gunicorn
+After=network.target
+
+[Service]
+User=ubuntu
+WorkingDirectory=/home/ubuntu/gram_panchayat
+Environment="PATH=/home/ubuntu/gram_panchayat/venv/bin"
+ExecStart=/home/ubuntu/gram_panchayat/venv/bin/gunicorn -c gunicorn_config.py gram_panchayat.wsgi:application
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Enable and start:
+```bash
+sudo systemctl enable gram_panchayat
+sudo systemctl start gram_panchayat
+```
+
+### Step 7: SSL Certificate (Free)
+```bash
+sudo apt-get install certbot python3-certbot-nginx
+sudo certbot certonly --nginx -d yourdomain.com -d www.yourdomain.com
+```
+
+---
+
+## POST-DEPLOYMENT CHECKS
+
+After deploying to any platform:
+
+1. **Create Superuser**
+   ```bash
+   python manage.py createsuperuser
+   ```
+
+2. **Verify Static Files**
+   - Check `/static/` loads correctly
+   - Check admin panel CSS loads
+
+3. **Test Functionality**
+   - Visit home page
+   - Check admin panel login
+   - Upload a test image
+   - Send a test message
+
+4. **Enable HTTPS**
+   - Ensure SSL certificate installed
+   - Update settings.py: SECURE_SSL_REDIRECT = True
+
+5. **Set Up Email**
+   - Configure EMAIL settings in .env
+   - Test contact form sends emails
+
+6. **Database Backup**
+   - Set up daily backups
+   - Test restore procedure
+
+7. **Monitor Logs**
+   - Check application logs for errors
+   - Set up error alerts
+
+---
+
+## CUSTOM DOMAIN SETUP
+
+After deploying:
+
+1. Purchase domain from GoDaddy, Namecheap, etc.
+
+2. Point DNS to your hosting:
+   - For Render: Update CNAME to render DNS
+   - For Railway: Update CNAME to railway DNS
+   - For AWS: Update A record to your EC2 IP
+
+3. Update ALLOWED_HOSTS in settings.py
+
+4. Redeploy application
+
+5. SSL certificate will be auto-generated
+
+---
+
+## MAINTENANCE
+
+### Weekly
+- Check error logs
+- Verify backups
+
+### Monthly
+- Update dependencies: pip list --outdated
+- Review new messages
+- Check storage usage
+
+### Quarterly
+- Update Django version
+- Review security updates
+- Performance optimization
+
+---
+
+Need help? Contact Django support or Render/Railway/PythonAnywhere documentation.

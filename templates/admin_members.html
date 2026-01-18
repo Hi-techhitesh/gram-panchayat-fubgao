@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Admin – Members{% endblock %}
+{% block content %}
+<h1>Manage Members</h1>
+
+<h2>Add / Edit Member</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="hidden" name="member_id" id="member_id">
+    <div>
+        <label>Name</label>
+        <input type="text" name="name" required>
+    </div>
+    <div>
+        <label>Position</label>
+        <select name="position">
+            <option value="sarpanch">Sarpanch</option>
+            <option value="upsarpanch">Up-Sarpanch</option>
+            <option value="member">Member</option>
+            <option value="secretary">Secretary</option>
+            <option value="treasurer">Treasurer</option>
+            <option value="other">Other</option>
+        </select>
+    </div>
+    <div>
+        <label>Contact number</label>
+        <input type="text" name="contact_number">
+    </div>
+    <div>
+        <label>Email</label>
+        <input type="email" name="email">
+    </div>
+    <div>
+        <label>Address</label>
+        <textarea name="address"></textarea>
+    </div>
+    <div>
+        <label>Bio</label>
+        <textarea name="bio"></textarea>
+    </div>
+    <div>
+        <label>Photo</label>
+        <input type="file" name="photo">
+    </div>
+    <div>
+        <label>Term start</label>
+        <input type="date" name="term_start_date">
+    </div>
+    <div>
+        <label>Term end</label>
+        <input type="date" name="term_end_date">
+    </div>
+    <button type="submit">Save Member</button>
+</form>
+
+<h2>Existing Members</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Position</th>
+        <th>Contact</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for m in members %}
+        <tr>
+            <td>{{ m.name }}</td>
+            <td>{{ m.get_position_display }}</td>
+            <td>{{ m.contact_number }}</td>
+            <td>
+                <a href="{% url 'delete_member' m.id %}">Delete</a>
+            </td>
+        </tr>
+    {% empty %}
+        <tr><td colspan="4">No members yet.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Government Schemes – Gram Panchayat Fungao{% endblock %}
+{% block content %}
+<h1>Government Schemes</h1>
+
+<form method="get">
+    <label>Filter by category:</label>
+    <select name="category" onchange="this.form.submit()">
+        <option value="">All</option>
+        {% for value,label in categories %}
+            <option value="{{ value }}" {% if selected_category == value %}selected{% endif %}>
+                {{ label }}
+            </option>
+        {% endfor %}
+    </select>
+</form>
+
+<ul class="schemes-list">
+    {% for s in schemes %}
+        <li class="scheme-item">
+            <h2>{{ s.scheme_name }}</h2>
+            <p><strong>Code:</strong> {{ s.scheme_code }}</p>
+            <p><strong>Category:</strong> {{ s.get_category_display }}</p>
+            <p><strong>Ministry:</strong> {{ s.ministry }}</p>
+            <p>{{ s.description|truncatewords:30 }}</p>
+            <p><strong>Eligibility:</strong> {{ s.eligibility_criteria|truncatewords:25 }}</p>
+            {% if s.application_link %}
+                <p><a href="{{ s.application_link }}" target="_blank">Application Link</a></p>
+            {% endif %}
+        </li>
+    {% empty %}
+        <li>No schemes available.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

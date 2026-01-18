@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Admin – Village Info{% endblock %}
+{% block content %}
+<h1>Edit Village Information</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div>
+        <label>Village name</label>
+        <input type="text" name="village_name" value="{{ village.village_name|default_if_none:'' }}">
+    </div>
+    <div>
+        <label>State</label>
+        <input type="text" name="state" value="{{ village.state|default_if_none:'' }}">
+    </div>
+    <div>
+        <label>District</label>
+        <input type="text" name="district" value="{{ village.district|default_if_none:'' }}">
+    </div>
+    <div>
+        <label>Taluka</label>
+        <input type="text" name="taluka" value="{{ village.taluka|default_if_none:'' }}">
+    </div>
+    <div>
+        <label>Population</label>
+        <input type="number" name="population" value="{{ village.population|default_if_none:'' }}">
+    </div>
+    <div>
+        <label>Total area (sq.km)</label>
+        <input type="text" name="total_area" value="{{ village.total_area|default_if_none:'' }}">
+    </div>
+    <div>
+        <label>Established year</label>
+        <input type="text" name="established_year" value="{{ village.established_year|default_if_none:'' }}">
+    </div>
+    <div>
+        <label>Description</label>
+        <textarea name="description">{{ village.description|default_if_none:'' }}</textarea>
+    </div>
+    <div>
+        <label>History</label>
+        <textarea name="history">{{ village.history|default_if_none:'' }}</textarea>
+    </div>
+    <div>
+        <label>Culture</label>
+        <textarea name="culture">{{ village.culture|default_if_none:'' }}</textarea>
+    </div>
+    <div>
+        <label>Agriculture</label>
+        <textarea name="agriculture">{{ village.agriculture|default_if_none:'' }}</textarea>
+    </div>
+    <div>
+        <label>Phone</label>
+        <input type="text" name="phone" value="{{ village.phone|default_if_none:'' }}">
+    </div>
+    <div>
+        <label>Email</label>
+        <input type="email" name="email" value="{{ village.email|default_if_none:'' }}">
+    </div>
+    <div>
+        <label>Address</label>
+        <textarea name="address">{{ village.address|default_if_none:'' }}</textarea>
+    </div>
+    <div>
+        <label>Village photo</label>
+        {% if village.village_photo %}
+            <img src="{{ village.village_photo.url }}" alt="Village" style="max-width:200px;display:block;">
+        {% endif %}
+        <input type="file" name="village_photo">
+    </div>
+    <button type="submit">Save</button>
+</form>
+{% endblock %}

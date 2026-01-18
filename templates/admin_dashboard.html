@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard – Gram Panchayat Fubgao{% endblock %}
+{% block content %}
+<h1>Admin Dashboard</h1>
+
+<p>Only staff users can access this page.</p>
+
+<div class="grid">
+    <div class="card">
+        <h2>Members</h2>
+        <p>Total: {{ stats.members_count }}</p>
+        <a href="{% url 'admin_members' %}">Manage Members</a>
+    </div>
+    <div class="card">
+        <h2>Schemes</h2>
+        <p>Total: {{ stats.schemes_count }}</p>
+        <a href="{% url 'schemes' %}">View Schemes</a>
+    </div>
+    <div class="card">
+        <h2>Gallery</h2>
+        <p>Total photos: {{ stats.gallery_count }}</p>
+    </div>
+    <div class="card">
+        <h2>New Messages</h2>
+        <p>Unread: {{ stats.messages_count }}</p>
+    </div>
+</div>
+
+<h2>Recent Messages</h2>
+<ul>
+    {% for m in recent_messages %}
+        <li>
+            <strong>{{ m.name }}</strong> – {{ m.subject }} ({{ m.created_at|date:"Y-m-d H:i" }})
+        </li>
+    {% empty %}
+        <li>No messages yet.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

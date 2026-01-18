@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - Gram Panchayat Fungao{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1>ग्रामपंचायत फुबगाव मध्ये आपले स्वागत आहे.</h1>
+            {% if village %}
+            <p>{{ village.description|truncatewords:30 }}</p>
+            {% else %}
+            <p>Connecting the village with transparent governance and citizen engagement</p>
+            {% endif %}
+            <div class="hero-buttons">
+                <a href="{% url 'about' %}" class="btn btn-primary">Learn About Us</a>
+                <a href="{% url 'contact' %}" class="btn btn-secondary">Get in Touch</a>
+            </div>
+        </div>
+        {% if village.village_photo %}
+        <div class="hero-image">
+            <img src="{{ village.village_photo.url }}" alt="{{ village.village_name }}">
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Statistics Section -->
+{% if village %}
+<section class="stats">
+    <div class="container">
+        <div class="stat-card">
+            <h3>{{ village.population|default:"N/A" }}</h3>
+            <p>Population</p>
+        </div>
+        <div class="stat-card">
+            <h3>{{ village.total_area|default:"N/A" }}</h3>
+            <p>Sq. KM Area</p>
+        </div>
+        <div class="stat-card">
+            <h3>{{ village.established_year|default:"N/A" }}</h3>
+            <p>Established</p>
+        </div>
+        <div class="stat-card">
+            <h3>{{ schemes|length }}</h3>
+            <p>Government Schemes</p>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Featured Gallery -->
+<section class="featured-gallery">
+    <div class="container">
+        <h2>Photo Gallery</h2>
+        <div class="gallery-grid">
+            {% for image in featured_images %}
+            <div class="gallery-item">
+                <img src="{{ image.image.url }}" alt="{{ image.title }}">
+                <div class="gallery-overlay">
+                    <p>{{ image.title }}</p>
+                </div>
+            </div>
+            {% empty %}
+            <p>No photos yet. Check back soon!</p>
+            {% endfor %}
+        </div>
+        <div class="view-all">
+            <a href="{% url 'gallery' %}" class="btn btn-primary">View All Photos</a>
+        </div>
+    </div>
+</section>
+
+<!-- Government Schemes -->
+<section class="schemes-preview">
+    <div class="container">
+        <h2>Government Schemes</h2>
+        <div class="schemes-grid">
+            {% for scheme in schemes %}
+            <div class="scheme-card">
+                <h3>{{ scheme.scheme_name }}</h3>
+                <p class="scheme-code">{{ scheme.scheme_code }}</p>
+                <p class="scheme-category">{{ scheme.get_category_display }}</p>
+                <p>{{ scheme.description|truncatewords:20 }}</p>
+                <a href="{% url 'schemes' %}" class="btn btn-small">Learn More</a>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="view-all">
+            <a href="{% url 'schemes' %}" class="btn btn-primary">View All Schemes</a>
+        </div>
+    </div>
+</section>
+
+<!-- News/Updates Section -->
+<section class="news">
+    <div class="container">
+        <h2>Recent Updates</h2>
+        <div class="news-container">
+            <div class="news-item">
+                <h3>📢 New Sanitation Scheme</h3>
+                <p>Government launches new sanitation scheme for rural areas with 100% subsidy.</p>
+                <small>Posted on {{ "today"|date:"Y-m-d" }}</small>
+            </div>
+            <div class="news-item">
+                <h3>🏫 School Renovation Project</h3>
+                <p>Village school renovation completed. New classrooms and computer lab inaugurated.</p>
+                <small>Posted on {{ "today"|date:"Y-m-d" }}</small>
+            </div>
+            <div class="news-item">
+                <h3>🌾 Agricultural Support</h3>
+                <p>Free seeds and fertilizers distribution for monsoon season farming.</p>
+                <small>Posted on {{ "today"|date:"Y-m-d" }}</small>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="cta">
+    <div class="container">
+        <h2>Stay Updated</h2>
+        <p>Subscribe to get latest updates about schemes, events, and village news</p>
+        <form class="newsletter-form">
+            <input type="email" placeholder="Enter your email" required>
+            <button type="submit" class="btn btn-primary">Subscribe</button>
+        </form>
+    </div>
+</section>
+
+{% endblock %}

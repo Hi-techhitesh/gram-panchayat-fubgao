@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}About Village – Gram Panchayat Fubgao{% endblock %}
+{% block content %}
+<h1>About Fubgao Village</h1>
+
+{% if village %}
+    <h2>General Information</h2>
+    <p><strong>Name:</strong> {{ village.village_name }}</p>
+    <p><strong>Taluka:</strong> {{ village.taluka }}</p>
+    <p><strong>District:</strong> {{ village.district }}</p>
+    <p><strong>State:</strong> {{ village.state }}</p>
+
+    <h2>Demographics</h2>
+    <p><strong>Population:</strong> {{ village.population|default:"NA" }}</p>
+    <p><strong>Area (sq.km):</strong> {{ village.total_area|default:"NA" }}</p>
+    <p><strong>Established:</strong> {{ village.established_year|default:"NA" }}</p>
+
+    <h2>History</h2>
+    <p>{{ village.history|default:"History will be updated soon." }}</p>
+
+    <h2>Culture</h2>
+    <p>{{ village.culture|default:"Culture details will be updated soon." }}</p>
+
+    <h2>Agriculture</h2>
+    <p>{{ village.agriculture|default:"Agricultural information will be updated soon." }}</p>
+{% else %}
+    <p>Village information is not added yet. Please add it from the admin panel.</p>
+{% endif %}
+{% endblock %}

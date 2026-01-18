@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Contact – Gram Panchayat Fungao{% endblock %}
+{% block content %}
+<h1>Contact Gram Panchayat</h1>
+
+{% if success %}
+    <p class="success">Thank you, your message has been sent.</p>
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+    <div>
+        <label>Name</label>
+        <input type="text" name="name" required>
+    </div>
+    <div>
+        <label>Email</label>
+        <input type="email" name="email" required>
+    </div>
+    <div>
+        <label>Phone</label>
+        <input type="text" name="phone">
+    </div>
+    <div>
+        <label>Subject</label>
+        <input type="text" name="subject" required>
+    </div>
+    <div>
+        <label>Message</label>
+        <textarea name="message" rows="4" required></textarea>
+    </div>
+    <button type="submit">Send Message</button>
+</form>
+
+{% if village %}
+<section>
+    <h2>Panchayat Office</h2>
+    <p>{{ village.address|default:"Address will be updated soon." }}</p>
+    <p>Phone: {{ village.phone|default:"NA" }}</p>
+    <p>Email: {{ village.email|default:"NA" }}</p>
+</section>
+{% endif %}
+{% endblock %}

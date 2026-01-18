@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Photo Gallery – Gram Panchayat Fubgao{% endblock %}
+{% block content %}
+<h1>Photo Gallery</h1>
+
+<form method="get">
+    <label>Filter by category:</label>
+    <select name="category" onchange="this.form.submit()">
+        <option value="">All</option>
+        {% for value,label in categories %}
+            <option value="{{ value }}" {% if selected_category == value %}selected{% endif %}>
+                {{ label }}
+            </option>
+        {% endfor %}
+    </select>
+</form>
+
+<div class="grid">
+    {% for img in images %}
+        <figure class="gallery-item">
+            <img src="{{ img.image.url }}" alt="{{ img.title }}" style="max-width:220px;">
+            <figcaption>
+                <strong>{{ img.title }}</strong><br>
+                {{ img.description|default:"" }}
+            </figcaption>
+        </figure>
+    {% empty %}
+        <p>No images uploaded yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}
