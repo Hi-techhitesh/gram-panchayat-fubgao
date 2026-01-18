@@ -1,43 +1,59 @@
 {% extends "base.html" %}
 {% block title %}Contact – Gram Panchayat Fungao{% endblock %}
 {% block content %}
-<h1>Contact Gram Panchayat</h1>
 
-{% if success %}
-    <p class="success">Thank you, your message has been sent.</p>
-{% endif %}
+<div class="contact-container">
+    <h1 class="page-title">📬 Contact Gram Panchayat</h1>
 
-<form method="post">
-    {% csrf_token %}
-    <div>
-        <label>Name</label>
-        <input type="text" name="name" required>
-    </div>
-    <div>
-        <label>Email</label>
-        <input type="email" name="email" required>
-    </div>
-    <div>
-        <label>Phone</label>
-        <input type="text" name="phone">
-    </div>
-    <div>
-        <label>Subject</label>
-        <input type="text" name="subject" required>
-    </div>
-    <div>
-        <label>Message</label>
-        <textarea name="message" rows="4" required></textarea>
-    </div>
-    <button type="submit">Send Message</button>
-</form>
+    {% if success %}
+        <div class="alert success">
+            ✅ Thank you, your message has been sent.
+        </div>
+    {% endif %}
 
-{% if village %}
-<section>
-    <h2>Panchayat Office</h2>
-    <p>{{ village.address|default:"Address will be updated soon." }}</p>
-    <p>Phone: {{ village.phone|default:"NA" }}</p>
-    <p>Email: {{ village.email|default:"NA" }}</p>
+    <form method="post" class="contact-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="name">👤 Name</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">📧 Email</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">📞 Phone</label>
+            <input type="text" id="phone" name="phone">
+        </div>
+
+        <div class="form-group">
+            <label for="subject">📝 Subject</label>
+            <input type="text" id="subject" name="subject" required>
+        </div>
+
+        <div class="form-group">
+            <label for="message">💬 Message</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary">Send Message</button>
+    </form>
+
+    {% if village %}
+<section class="office-info">
+    <div class="office-card">
+        <h2 class="office-title">🏢 Panchayat Office</h2>
+        <div class="office-details">
+            <p><span class="icon">📍</span> <strong>Address:</strong> {{ village.address|default:"Address will be updated soon." }}</p>
+            <p><span class="icon">📞</span> <strong>Phone:</strong> {{ village.phone|default:"NA" }}</p>
+            <p><span class="icon">✉️</span> <strong>Email:</strong> {{ village.email|default:"NA" }}</p>
+        </div>
+    </div>
 </section>
 {% endif %}
+
+</div>
+
 {% endblock %}
