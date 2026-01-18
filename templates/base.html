@@ -7,6 +7,7 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -16,12 +17,12 @@
                 <h1>🏘️ ग्रामपंचायत फुबगाव</h1>
             </div>
             <ul class="nav-menu">
-                <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'about' %}">About Village</a></li>
-                <li><a href="{% url 'members' %}">Members</a></li>
-                <li><a href="{% url 'schemes' %}">Schemes</a></li>
-                <li><a href="{% url 'gallery' %}">Gallery</a></li>
-                <li><a href="{% url 'contact' %}">Contact</a></li>
+                <li><a href="{% url 'home' %}">मुख्यपृष्ठ</a></li>
+                <li><a href="{% url 'about' %}">गावाबद्दल</a></li>
+                <li><a href="{% url 'members' %}">सदस्य</a></li>
+                <li><a href="{% url 'schemes' %}">शासकीय योजना</a></li>
+                <li><a href="{% url 'gallery' %}">फोटो</a></li>
+                <li><a href="{% url 'contact' %}">संपर्क</a></li>
                 {% if user.is_authenticated %}
                 <li><a href="/admin/" class="admin-link"><i class="fas fa-lock"></i> Admin</a></li>
                 {% endif %}

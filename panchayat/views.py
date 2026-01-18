@@ -16,6 +16,8 @@ from .serializers import (
     GovernmentSchemeSerializer, GalleryImageSerializer, ContactMessageSerializer
 )
 from .permissions import IsAdminOrReadOnly, IsAdmin
+from django.http import JsonResponse
+from django.template.loader import render_to_string
 
 # ==================== FRONTEND VIEWS ====================
 
@@ -85,6 +87,7 @@ def gallery_view(request):
     }
     return render(request, 'gallery.html', context)
 
+
 def contact_view(request):
     """Contact page - handle messages"""
     if request.method == 'POST':
@@ -114,7 +117,13 @@ def contact_view(request):
             )
         except:
             pass
-        
+
+        # If request came via HTMX, return only partial HTML
+        if request.headers.get("HX-Request"):
+            html = render_to_string("partials/contact_success.html")
+            return JsonResponse({"html": html})
+
+        # Otherwise, render full page
         return render(request, 'contact.html', {'success': True})
     
     village = VillageInfo.objects.first()
