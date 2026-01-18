@@ -2,7 +2,7 @@
 
 ## 📦 WHAT'S INCLUDED
 
-This is a **production-ready Django web application** for Gram Panchayat Fungao with:
+This is a **production-ready Django web application** for Gram Panchayat Fubgao with:
 
 ### Backend (Django)
 - ✅ 5 database models with complete CRUD operations
