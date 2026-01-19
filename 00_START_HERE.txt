@@ -1,4 +1,4 @@
-# 🏘️ Gram Panchayat Fungao - Complete Website System
+# 🏘️ Gram Panchayat Fubgao - Complete Website System
 
 **Professional Village Website | Admin Panel | Government Schemes | Photo Gallery | Contact Management**
 
@@ -6,7 +6,7 @@
 
 ## 🎉 WELCOME!
 
-You now have a **complete, production-ready Django website** for Gram Panchayat Fungao!
+You now have a **complete, production-ready Django website** for Gram Panchayat Fubgao!
 
 This package includes everything needed to:
 - ✅ Run the website locally
@@ -478,4 +478,4 @@ This complete package gives you:
 
 ---
 
-*Gram Panchayat Fungao Website System - Complete & Ready to Deploy*
+*Gram Panchayat Fubgao Website System - Complete & Ready to Deploy*
