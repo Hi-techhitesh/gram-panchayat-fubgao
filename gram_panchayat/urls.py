@@ -15,6 +15,6 @@ if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # Admin site customization
-admin.site.site_header = "Gram Panchayat Fungao - Admin Panel"
-admin.site.site_title = "GP Fungao Admin"
+admin.site.site_header = "Gram Panchayat Fubgao - Admin Panel"
+admin.site.site_title = "GP Fubgao Admin"
 admin.site.index_title = "Welcome to Admin Panel"

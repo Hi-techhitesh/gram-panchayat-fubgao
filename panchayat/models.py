@@ -67,12 +67,12 @@ class VillageInfo(models.Model):
 # Panchayat Member Model
 class PanchayatMember(models.Model):
     POSITION_CHOICES = [
-        ('sarpanch', 'Sarpanch (Village Head)'),
-        ('upsarpanch', 'Up-Sarpanch (Deputy Head)'),
-        ('member', 'Ward Member'),
-        ('secretary', 'Secretary'),
-        ('treasurer', 'Treasurer'),
-        ('other', 'Other'),
+        ('sarpanch', 'सरपंच (Village Head)'),
+        ('upsarpanch', 'उप सरपंच (Deputy Head)'),
+        ('member', 'सदस्य'),
+        ('secretary', 'सचिव'),
+        ('treasurer', 'कर्मचारी'),
+        ('other', 'संगणक परिचालक'),
     ]
     
     name = models.CharField(max_length=200)
@@ -133,13 +133,13 @@ class PanchayatMember(models.Model):
 # Government Schemes Model
 class GovernmentScheme(models.Model):
     CATEGORY_CHOICES = [
-        ('health', 'Health & Wellness'),
-        ('education', 'Education'),
-        ('agriculture', 'Agriculture'),
-        ('infrastructure', 'Infrastructure'),
-        ('social', 'Social Security'),
-        ('skill', 'Skill Development'),
-        ('other', 'Other'),
+        ('health', 'आरोग्य'),
+        ('education', 'शिक्षण'),
+        ('agriculture', 'शेती विषयक'),
+        ('infrastructure', 'सार्वजनिक सुखसुविधा'),
+        ('social', 'आवास योजना'),
+        ('skill', 'कौशल्य विकास'),
+        ('other', 'इतर'),
     ]
     
     scheme_name = models.CharField(max_length=200)
