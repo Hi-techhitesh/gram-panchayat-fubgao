@@ -633,22 +633,24 @@ a:hover {
 }
 
 @media (max-width: 768px) {
-    .contact-container {
-        grid-template-columns: 1fr;
+    .contact-form,
+    .office-info,
+    .map-container {
+        width: 100%;
+        max-width: 100%;
+        justify-self: stretch;
     }
 }
 
-.contact-header{
-    min-height: 30px;
-    width: 300px;
-    background: white;
+.contact-header {
     grid-column: 1 / -1;
-
+    width: 100%;
 }
+
 
 .map-container {
     min-height: 350px;
-    width: 400px;
+    width: 100%;
     background: red;
     grid-column: 1 / -1;
 }
