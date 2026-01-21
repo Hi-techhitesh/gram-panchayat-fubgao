@@ -565,10 +565,6 @@ a:hover {
     padding: 3rem;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
-    
-   
-
-   transform: translateX(300px);
 }
 
 .form-group {
@@ -611,7 +607,6 @@ a:hover {
     width: 500px;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
-    transform: translateY(800px);
 }
 
 .info-item {
@@ -648,7 +643,7 @@ a:hover {
     width: 300px;
     background: white;
     grid-column: 1 / -1;
-    transform: translateX(400px);
+
 }
 
 .map-container {
