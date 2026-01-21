@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Contact – Gram Panchayat Fubgao{% endblock %}
+{% block content %}
+
+<div class="contact-container">
+
+    <!-- Title -->
+    <div class="contact-header">
+        <h1>📬 संपर्क करा</h1>
+
+        {% if success %}
+        <div class="success-message">
+            ✅ Thank you, your message has been sent.
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Left: Contact Form -->
+    <form method="post" class="contact-form">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label>👤 पूर्ण नाव</label>
+            <input type="text" name="name" required>
+        </div>
+
+        <div class="form-group">
+            <label>✉️ ईमेल</label>
+            <input type="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+            <label>📞 संपर्क क्रमांक</label>
+            <input type="text" name="phone">
+        </div>
+
+        <div class="form-group">
+            <label>📝 विषय</label>
+            <input type="text" name="subject" required>
+        </div>
+
+        <div class="form-group">
+            <label>💬 संदेश</label>
+            <textarea name="message" required></textarea>
+        </div>
+
+        <button class="btn btn-primary">📤 संदेश पाठवा</button>
+    </form>
+
+    <!-- Right: Office Info -->
+    {% if village %}
+    <section class="office-info">
+        <div class="office-card">
+            <h2 class="office-title">🏢 ग्रामपंचायत कार्यालय</h2>
+            <p>📍 {{ village.address }}</p>
+            <p>📞 {{ village.phone }}</p>
+            <p>✉️ {{ village.email }}</p>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Map -->
+    <div class="map-container">
+        <!-- iframe stays same -->
+    </div>
+
+</div>
+{% endblock %}
