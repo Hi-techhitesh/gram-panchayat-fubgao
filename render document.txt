@@ -1,0 +1,12 @@
+hostname : dpg-d79702tm5p6s739tf92g-a
+port : 5432
+database : fubgaodb_vqp8
+Username : fubgaodb_vqp8_user
+pass : KLdsGJpmI4HxQrCHnavRkcKepNbqLkrO
+Internal Database URL : postgresql://fubgaodb_vqp8_user:KLdsGJpmI4HxQrCHnavRkcKepNbqLkrO@dpg-d79702tm5p6s739tf92g-a/fubgaodb_vqp8
+
+External Database URL :  postgresql://fubgaodb_vqp8_user:KLdsGJpmI4HxQrCHnavRkcKepNbqLkrO@dpg-d79702tm5p6s739tf92g-a.oregon-postgres.render.com/fubgaodb_vqp8
+
+
+PSQL Command : PGPASSWORD=KLdsGJpmI4HxQrCHnavRkcKepNbqLkrO psql -h dpg-d79702tm5p6s739tf92g-a.oregon-postgres.render.com -U fubgaodb_vqp8_user fubgaodb_vqp8
+

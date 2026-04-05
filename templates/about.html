@@ -5,24 +5,24 @@
 <h1>About Fubgao Village</h1>
 
 {% if village %}
-    <h2>General Information</h2>
-    <p><strong>Name:</strong> {{ village.village_name }}</p>
-    <p><strong>Taluka:</strong> {{ village.taluka }}</p>
-    <p><strong>District:</strong> {{ village.district }}</p>
-    <p><strong>State:</strong> {{ village.state }}</p>
+    <h2>सामान्य माहिती</h2>
+    <p><strong>गावाचे नाव:</strong> {{ village.village_name }}</p>
+    <p><strong>तालुका:</strong> {{ village.taluka }}</p>
+    <p><strong>जिल्हा:</strong> {{ village.district }}</p>
+    <p><strong>राज्य:</strong> {{ village.state }}</p>
 
-    <h2>Demographics</h2>
-    <p><strong>Population:</strong> {{ village.population|default:"NA" }}</p>
-    <p><strong>Area (sq.km):</strong> {{ village.total_area|default:"NA" }}</p>
-    <p><strong>Established:</strong> {{ village.established_year|default:"NA" }}</p>
+    <h2>भौगोलिक माहिती</h2>
+    <p><strong>लोकसंख्या:</strong> {{ village.population|default:"NA" }}</p>
+    <p><strong>क्षेत्रफळ (sq.km):</strong> {{ village.total_area|default:"NA" }}</p>
+    <p><strong>स्थापना वर्ष:</strong> {{ village.established_year|default:"NA" }}</p>
 
-    <h2>History</h2>
+    <h2>इतिहास</h2>
     <p>{{ village.history|default:"History will be updated soon." }}</p>
 
-    <h2>Culture</h2>
+    <h2>संस्कृती</h2>
     <p>{{ village.culture|default:"Culture details will be updated soon." }}</p>
 
-    <h2>Agriculture</h2>
+    <h2>शेतीविषयक</h2>
     <p>{{ village.agriculture|default:"Agricultural information will be updated soon." }}</p>
 {% else %}
     <p>Village information is not added yet. Please add it from the admin panel.</p>
